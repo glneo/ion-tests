@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBION REQUIRED libion)
 
+# ion-unit-tests
+
 find_package(GTest REQUIRED)
 
 add_executable(ion-unit-tests
@@ -27,6 +29,8 @@ target_link_libraries(ion-unit-tests
 
 install(TARGETS ion-unit-tests RUNTIME DESTINATION bin)
 
+# ion_test
+
 add_executable(ion_test
 	src/ion_test.c
 )
@@ -37,3 +41,16 @@ target_link_libraries(ion_test
 target_include_directories(ion_test PUBLIC ${LIBION_INCLUDE_DIRS})
 
 install(TARGETS ion_test RUNTIME DESTINATION bin)
+
+# ion-print-heaps
+
+add_executable(ion-print-heaps
+	src/ion-print-heaps.c
+)
+
+target_link_libraries(ion-print-heaps
+	${LIBION_LIBRARIES}
+)
+target_include_directories(ion-print-heaps PUBLIC ${LIBION_INCLUDE_DIRS})
+
+install(TARGETS ion-print-heaps RUNTIME DESTINATION bin)
