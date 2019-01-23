@@ -54,3 +54,16 @@ target_link_libraries(ion-print-heaps
 target_include_directories(ion-print-heaps PUBLIC ${LIBION_INCLUDE_DIRS})
 
 install(TARGETS ion-print-heaps RUNTIME DESTINATION bin)
+
+# phys-addr
+
+add_executable(phys-addr
+	src/phys-addr.c
+)
+
+target_link_libraries(phys-addr
+	${LIBION_LIBRARIES}
+)
+target_include_directories(phys-addr PUBLIC ${LIBION_INCLUDE_DIRS})
+
+install(TARGETS phys-addr RUNTIME DESTINATION bin)
