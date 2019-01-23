@@ -31,7 +31,6 @@
 #include <linux/ion.h>
 
 size_t len = 1024 * 1024;
-size_t align = 0;
 int prot = PROT_READ | PROT_WRITE;
 int map_flags = MAP_SHARED;
 int alloc_flags = 0;
