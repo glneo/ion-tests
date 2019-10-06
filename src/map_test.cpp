@@ -56,27 +56,27 @@ TEST_F(Map, MapOffset)
         SCOPED_TRACE(::testing::Message() << "heap " << heapMask);
         int map_fd = -1;
 
-        unsigned long PAGE_SIZE = sysconf(_SC_PAGESIZE);
+        unsigned long psize = sysconf(_SC_PAGESIZE);
 
-        ASSERT_EQ(0, ion_alloc(m_ionFd, PAGE_SIZE * 2, heapMask, 0, &map_fd));
+        ASSERT_EQ(0, ion_alloc(m_ionFd, psize * 2, heapMask, 0, &map_fd));
         ASSERT_GE(map_fd, 0);
 
         unsigned char *ptr;
-        ptr = (unsigned char *)mmap(NULL, PAGE_SIZE * 2, PROT_READ | PROT_WRITE, MAP_SHARED, map_fd, 0);
+        ptr = (unsigned char *)mmap(NULL, psize * 2, PROT_READ | PROT_WRITE, MAP_SHARED, map_fd, 0);
         ASSERT_TRUE(ptr != NULL);
 
-        memset(ptr, 0, PAGE_SIZE);
-        memset(ptr + PAGE_SIZE, 0xaa, PAGE_SIZE);
+        memset(ptr, 0, psize);
+        memset(ptr + psize, 0xaa, psize);
 
-        ASSERT_EQ(0, munmap(ptr, PAGE_SIZE * 2));
+        ASSERT_EQ(0, munmap(ptr, psize * 2));
 
-        ptr = (unsigned char *)mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, map_fd, PAGE_SIZE);
+        ptr = (unsigned char *)mmap(NULL, psize, PROT_READ | PROT_WRITE, MAP_SHARED, map_fd, psize);
         ASSERT_TRUE(ptr != NULL);
 
         ASSERT_EQ(ptr[0], 0xaa);
-        ASSERT_EQ(ptr[PAGE_SIZE - 1], 0xaa);
+        ASSERT_EQ(ptr[psize - 1], 0xaa);
 
-        ASSERT_EQ(0, munmap(ptr, PAGE_SIZE));
+        ASSERT_EQ(0, munmap(ptr, psize));
 
         ASSERT_EQ(0, close(map_fd));
     }
